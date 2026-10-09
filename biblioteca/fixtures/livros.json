@@ -1,0 +1,69 @@
+[
+  {
+    "model": "biblioteca.author",
+    "pk": 1,
+    "fields": {
+      "name": "Machado de Assis",
+      "nationality": "Brasileira"
+    }
+  },
+  {
+    "model": "biblioteca.author",
+    "pk": 2,
+    "fields": {
+      "name": "Paulo Coelho",
+      "nationality": "Brasileira"
+    }
+  },
+  {
+    "model": "biblioteca.author",
+    "pk": 3,
+    "fields": {
+      "name": "Carolina Maria de Jesus",
+      "nationality": "Brasileira"
+    }
+  },
+  {
+    "model": "biblioteca.category",
+    "pk": 1,
+    "fields": {"name": "Romance"}
+  },
+  {
+    "model": "biblioteca.category",
+    "pk": 2,
+    "fields": {"name": "Ficção"}
+  },
+  {
+    "model": "biblioteca.book",
+    "pk": 1,
+    "fields": {
+      "title": "Dom Casmurro",
+      "author": 1,
+      "year": 1899,
+      "available": true,
+      "categories": [1, 2]
+    }
+  },
+  {
+    "model": "biblioteca.book",
+    "pk": 2,
+    "fields": {
+      "title": "O Alquimista",
+      "author": 2,
+      "year": 1988,
+      "available": true,
+      "categories": [1]
+    }
+  },
+  {
+    "model": "biblioteca.book",
+    "pk": 3,
+    "fields": {
+      "title": "Quarto de Despejo",
+      "author": 3,
+      "year": 1960,
+      "available": false,
+      "categories": []
+    }
+  }
+]

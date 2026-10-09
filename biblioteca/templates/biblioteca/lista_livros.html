@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Biblioteca</title>
+</head>
+<body>
+    <h1>Livros da biblioteca</h1>
+    {% if livros %}
+        <ul>
+            {% for livro in livros %}
+                <li>{{ livro.title }} — <a href="{% url 'author_detail' livro.author.pk %}">{{ livro.author.name }}</a> ({{ livro.year }})</li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>Nenhum livro cadastrado.</p>
+    {% endif %}
+</body>
+</html>

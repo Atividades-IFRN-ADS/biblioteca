@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% if book %}Editar livro{% else %}Novo livro{% endif %} | Biblioteca</title>
+</head>
+<body>
+    <h1>{% if book %}Editar livro{% else %}Novo livro{% endif %}</h1>
+    <form method="post">
+        {% csrf_token %}
+
+        {% if form.non_field_errors %}
+            <div>
+                {% for error in form.non_field_errors %}
+                    <p>{{ error }}</p>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        <div>
+            {{ form.title.label_tag }}
+            {{ form.title }}
+            {% for error in form.title.errors %}
+                <p>{{ error }}</p>
+            {% endfor %}
+        </div>
+
+        <div>
+            {{ form.authors.label_tag }}
+            {{ form.authors }}
+            {% for error in form.authors.errors %}
+                <p>{{ error }}</p>
+            {% endfor %}
+        </div>
+
+        <div>
+            {{ form.year.label_tag }}
+            {{ form.year }}
+            {% for error in form.year.errors %}
+                <p>{{ error }}</p>
+            {% endfor %}
+        </div>
+
+        <div>
+            {{ form.available.label_tag }}
+            {{ form.available }}
+            {% for error in form.available.errors %}
+                <p>{{ error }}</p>
+            {% endfor %}
+        </div>
+
+        <div>
+            {{ form.categories.label_tag }}
+            {{ form.categories }}
+            {% for error in form.categories.errors %}
+                <p>{{ error }}</p>
+            {% endfor %}
+        </div>
+
+        <button type="submit">{% if book %}Editar livro{% else %}Novo livro{% endif %}</button>
+    </form>
+    <p><a href="{% url 'listar_livros' %}">Voltar à lista</a></p>
+</body>
+</html>

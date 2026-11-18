@@ -33,3 +33,7 @@ A lista fica em `http://127.0.0.1:8000/`; os detalhes do autor são acessados pe
 O link `Novo autor` abre um `ModelForm` com os campos `Nome` e `Nacionalidade`. O nome é obrigatório; a nacionalidade é opcional. Após salvar, a aplicação redireciona para a página do autor recém-criado, evitando novo cadastro ao atualizar o navegador.
 
 O template usa `{% csrf_token %}`. Em teste, removê-lo e enviar o formulário produz resposta HTTP 403 (`CSRF verification failed. Request aborted.`), porque o `CsrfViewMiddleware` bloqueia a requisição POST antes da View. A proteção deve permanecer no formulário.
+
+## Formulário de livro
+
+As páginas `Novo livro` e `Editar` usam a mesma View e o mesmo `ModelForm`/template. O título é normalizado antes de salvar; espaços repetidos são reduzidos e títulos com menos de três caracteres são rejeitados. O ano não pode ser posterior ao ano atual, calculado no momento da validação. Categorias são opcionais e aparecem como caixas de marcação. Após salvar, o usuário volta à página do autor do livro.

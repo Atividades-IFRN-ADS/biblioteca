@@ -1,6 +1,8 @@
+from datetime import date
+
 from django import forms
 
-from .models import Author
+from .models import Author, Book
 
 
 class AuthorForm(forms.ModelForm):
@@ -11,3 +13,34 @@ class AuthorForm(forms.ModelForm):
             "name": "Nome",
             "nationality": "Nacionalidade",
         }
+
+
+class BookForm(forms.ModelForm):
+    class Meta:
+        model = Book
+        fields = ("title", "authors", "year", "available", "categories")
+        labels = {
+            "title": "Título",
+            "authors": "Autores",
+            "year": "Ano",
+            "available": "Disponível",
+            "categories": "Categorias",
+        }
+        widgets = {"categories": forms.CheckboxSelectMultiple}
+
+    def clean_title(self):
+        title = " ".join(self.cleaned_data["title"].split())
+        if len(title) < 3:
+            raise forms.ValidationError(
+                "O título deve ter pelo menos 3 caracteres após a limpeza."
+            )
+        return title
+
+    def clean_year(self):
+        year = self.cleaned_data["year"]
+        current_year = date.today().year
+        if year > current_year:
+            raise forms.ValidationError(
+                f"O ano não pode ser posterior a {current_year}."
+            )
+        return year

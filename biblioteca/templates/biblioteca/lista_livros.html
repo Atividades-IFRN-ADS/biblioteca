@@ -7,7 +7,10 @@
 </head>
 <body>
     <h1>Livros da biblioteca</h1>
-    <p><a href="{% url 'author_create' %}">Novo autor</a></p>
+    <p>
+        <a href="{% url 'author_create' %}">Novo autor</a>
+        <a href="{% url 'book_create' %}">Novo livro</a>
+    </p>
     {% if livros %}
         <ul>
             {% for livro in livros %}
@@ -16,6 +19,7 @@
                         <a href="{% url 'author_detail' author.pk %}">{{ author.name }}</a>{% if not forloop.last %}, {% endif %}
                     {% endfor %}
                     ({{ livro.year }})
+                    <a href="{% url 'book_edit' livro.pk %}">Editar</a>
                 </li>
             {% endfor %}
         </ul>

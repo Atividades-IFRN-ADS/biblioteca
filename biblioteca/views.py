@@ -4,7 +4,7 @@ from .models import Author, Book
 
 
 def listar_livros(request):
-    livros = Book.objects.select_related("author")
+    livros = Book.objects.prefetch_related("authors")
     return render(request, "biblioteca/lista_livros.html", {"livros": livros})
 
 

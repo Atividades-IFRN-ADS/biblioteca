@@ -38,7 +38,7 @@
     "pk": 1,
     "fields": {
       "title": "Dom Casmurro",
-      "author": 1,
+      "authors": [1],
       "year": 1899,
       "available": true,
       "categories": [1, 2]
@@ -49,7 +49,7 @@
     "pk": 2,
     "fields": {
       "title": "O Alquimista",
-      "author": 2,
+      "authors": [2],
       "year": 1988,
       "available": true,
       "categories": [1]
@@ -60,7 +60,7 @@
     "pk": 3,
     "fields": {
       "title": "Quarto de Despejo",
-      "author": 3,
+      "authors": [3],
       "year": 1960,
       "available": false,
       "categories": []

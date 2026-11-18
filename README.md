@@ -2,9 +2,17 @@
 
 Projeto Django para listar livros e consultar os livros de cada autor.
 
-## Decisão sobre exclusão de autores
+## Autores e reversão das migrações
 
-`Book.author` usa `on_delete=models.PROTECT`. Se um autor tiver livros, o Admin e o ORM impedem sua exclusão. Isso mantém os livros associados a um autor válido; para excluir esse autor, primeiro é necessário reatribuir ou remover seus livros.
+`Book.authors` permite vários autores por livro. A migração adiciona a relação muitos-para-muitos, copia para ela o autor que cada livro já tinha e só depois remove a chave estrangeira antiga. `author_detail` continua usando `author.books`, nome preservado pelo `related_name`.
+
+Ao reverter a migração, os vínculos excedentes de coautoria se perdem: uma chave estrangeira só pode guardar um autor por livro. A reversão escolhe um autor para preencher esse campo; os outros vínculos não cabem no modelo antigo.
+
+Se o único autor de um livro for apagado, o livro continua existindo sem autores; o Django apaga apenas o vínculo da tabela intermediária. Para exigir pelo menos um autor, valide os formulários e operações que alteram autores e impeça a remoção do último vínculo. Uma garantia também contra alterações SQL diretas exige uma regra no próprio banco, como um trigger.
+
+## Base de exemplo
+
+Antes da alteração, a base foi copiada para `db.sqlite3.backup-2026-10-09` e completada para conter pelo menos 10 livros.
 
 ## Executar
 

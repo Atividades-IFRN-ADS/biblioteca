@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Novo autor | Biblioteca</title>
+</head>
+<body>
+    <h1>Novo autor</h1>
+    <form method="post">
+        {% csrf_token %}
+
+        {% if form.non_field_errors %}
+            <div>
+                {% for error in form.non_field_errors %}
+                    <p>{{ error }}</p>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        <div>
+            {{ form.name.label_tag }}
+            {{ form.name }}
+            {% for error in form.name.errors %}
+                <p>{{ error }}</p>
+            {% endfor %}
+        </div>
+
+        <div>
+            {{ form.nationality.label_tag }}
+            {{ form.nationality }}
+            {% for error in form.nationality.errors %}
+                <p>{{ error }}</p>
+            {% endfor %}
+        </div>
+
+        <button type="submit">Salvar</button>
+    </form>
+    <p><a href="{% url 'listar_livros' %}">Voltar à lista</a></p>
+</body>
+</html>

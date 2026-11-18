@@ -27,3 +27,9 @@ python manage.py runserver
 Os livros da primeira atividade são preservados e convertidos para autores na migração. Em um banco novo e vazio, carregue os exemplos com `python manage.py loaddata livros`.
 
 A lista fica em `http://127.0.0.1:8000/`; os detalhes do autor são acessados pelo link ao lado de cada livro. Para administrar o catálogo, crie um usuário com `python manage.py createsuperuser` e acesse `http://127.0.0.1:8000/admin/`.
+
+## Formulário de autor
+
+O link `Novo autor` abre um `ModelForm` com os campos `Nome` e `Nacionalidade`. O nome é obrigatório; a nacionalidade é opcional. Após salvar, a aplicação redireciona para a página do autor recém-criado, evitando novo cadastro ao atualizar o navegador.
+
+O template usa `{% csrf_token %}`. Em teste, removê-lo e enviar o formulário produz resposta HTTP 403 (`CSRF verification failed. Request aborted.`), porque o `CsrfViewMiddleware` bloqueia a requisição POST antes da View. A proteção deve permanecer no formulário.

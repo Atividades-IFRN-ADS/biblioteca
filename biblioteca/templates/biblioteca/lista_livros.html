@@ -7,6 +7,7 @@
 </head>
 <body>
     <h1>Livros da biblioteca</h1>
+    <p><a href="{% url 'author_create' %}">Novo autor</a></p>
     {% if livros %}
         <ul>
             {% for livro in livros %}

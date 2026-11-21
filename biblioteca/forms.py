@@ -26,6 +26,7 @@ class BookForm(forms.ModelForm):
             "categories",
             "pages",
             "isbn",
+            "cover",
         )
         labels = {
             "title": "Título",
@@ -35,6 +36,7 @@ class BookForm(forms.ModelForm):
             "categories": "Categorias",
             "pages": "Páginas",
             "isbn": "ISBN",
+            "cover": "Capa",
         }
         widgets = {"categories": forms.CheckboxSelectMultiple}
 

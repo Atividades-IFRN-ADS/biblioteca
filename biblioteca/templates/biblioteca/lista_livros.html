@@ -14,7 +14,11 @@
     {% if livros %}
         <ul>
             {% for livro in livros %}
-                <li>{{ livro.title }} —
+                <li>
+                    {% if livro.cover %}
+                        <img src="{{ livro.cover.url }}" alt="Capa de {{ livro.title }}" width="80">
+                    {% endif %}
+                    {{ livro.title }} —
                     {% for author in livro.authors.all %}
                         <a href="{% url 'author_detail' author.pk %}">{{ author.name }}</a>{% if not forloop.last %}, {% endif %}
                     {% endfor %}

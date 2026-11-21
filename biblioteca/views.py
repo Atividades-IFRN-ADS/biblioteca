@@ -26,6 +26,7 @@ def book_form(request, pk=None):
     book = get_object_or_404(Book, pk=pk) if pk is not None else None
     form = BookForm(
         request.POST if request.method == "POST" else None,
+        request.FILES if request.method == "POST" else None,
         instance=book,
     )
     if request.method == "POST" and form.is_valid():

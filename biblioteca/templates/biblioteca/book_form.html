@@ -7,7 +7,7 @@
 </head>
 <body>
     <h1>{% if book %}Editar livro{% else %}Novo livro{% endif %}</h1>
-    <form method="post">
+    <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
 
         {% if form.non_field_errors %}
@@ -54,6 +54,33 @@
             {{ form.categories.label_tag }}
             {{ form.categories }}
             {% for error in form.categories.errors %}
+                <p>{{ error }}</p>
+            {% endfor %}
+        </div>
+
+        <div>
+            {{ form.pages.label_tag }}
+            {{ form.pages }}
+            {% for error in form.pages.errors %}
+                <p>{{ error }}</p>
+            {% endfor %}
+        </div>
+
+        <div>
+            {{ form.isbn.label_tag }}
+            {{ form.isbn }}
+            {% for error in form.isbn.errors %}
+                <p>{{ error }}</p>
+            {% endfor %}
+        </div>
+
+        <div>
+            {{ form.cover.label_tag }}
+            {{ form.cover }}
+            {% if book and book.cover %}
+                <p><img src="{{ book.cover.url }}" alt="Capa de {{ book.title }}" width="120"></p>
+            {% endif %}
+            {% for error in form.cover.errors %}
                 <p>{{ error }}</p>
             {% endfor %}
         </div>

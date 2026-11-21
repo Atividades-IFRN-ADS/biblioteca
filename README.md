@@ -53,3 +53,16 @@ O Model `Book` valida título com `MinLengthValidator(3)`, ano entre 1450 e o an
 ## Formulário de livro
 
 As páginas `Novo livro` e `Editar` usam a mesma View e o mesmo `ModelForm`/template. O título é normalizado antes de salvar; espaços repetidos são reduzidos e títulos com menos de três caracteres são rejeitados. O ano não pode ser posterior ao ano atual, calculado no momento da validação. Categorias são opcionais e aparecem como caixas de marcação. Após salvar, o usuário volta à página do autor do livro.
+
+## Upload de capas
+
+`Book.cover` é um `ImageField`: o banco guarda o caminho relativo, e o arquivo fica em `MEDIA_ROOT/capas/`. O formulário usa `enctype="multipart/form-data"`, e a validação limita a capa a 1 MB e às extensões JPG, JPEG e PNG. `Pillow` é necessário para o `ImageField` validar imagens.
+
+Sem `request.FILES`, o arquivo não chega ao `ModelForm`; os demais campos podem continuar válidos, mas a capa fica vazia. Sem `enctype="multipart/form-data"`, o navegador também não envia os bytes; o formulário não mostra aviso automático de upload ausente, apenas salva sem capa se o campo for opcional. Nas CBVs, `ModelFormMixin` monta o formulário POST com `request.POST` e `request.FILES` automaticamente.
+
+Arquivos estáticos são recursos da aplicação, como CSS e JavaScript, e usam `STATICFILES_DIRS` e `{% static %}`. Capas são arquivos enviados pelos usuários, e usam `MEDIA_ROOT` e `{{ livro.cover.url }}`. A mini biblioteca usa mídia para capas.
+
+O Django não remove o arquivo antigo quando um livro é apagado ou quando a capa é trocada; ele remove o registro/caminho, mas não sabe se o arquivo é usado em outro lugar. Isso deixa lixo em `media/capas/`, aumenta o armazenamento e pode expor arquivos antigos. Em produção, uma rotina de limpeza deve remover arquivos sem referência depois de confirmar que não são compartilhados.
+
+A extensão não prova que o conteúdo é uma imagem. O servidor também deve validar conteúdo com Pillow, limitar tamanho e dimensões, gerar nome seguro, impedir travessia de diretórios, armazenar uploads fora do código executável quando possível e servir o arquivo com configuração segura. Uploads nunca devem ser tratados como código executável.
+

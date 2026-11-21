@@ -1,4 +1,5 @@
 from django.core.validators import (
+    FileExtensionValidator,
     MaxValueValidator,
     MinLengthValidator,
     MinValueValidator,
@@ -6,7 +7,7 @@ from django.core.validators import (
 )
 from django.db import models
 
-from .validators import validar_ano_publicacao
+from .validators import validar_ano_publicacao, validar_tamanho_arquivo
 
 
 class Author(models.Model):
@@ -66,6 +67,18 @@ class Book(models.Model):
                 r"^\d{13}$",
                 message="O ISBN deve conter exatamente 13 dígitos.",
             )
+        ],
+    )
+    cover = models.ImageField(
+        upload_to="capas/",
+        blank=True,
+        null=True,
+        validators=[
+            validar_tamanho_arquivo,
+            FileExtensionValidator(
+                allowed_extensions=["jpg", "jpeg", "png"],
+                message="A capa deve ser uma imagem JPG, JPEG ou PNG.",
+            ),
         ],
     )
 

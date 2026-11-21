@@ -18,22 +18,28 @@ class AuthorForm(forms.ModelForm):
 class BookForm(forms.ModelForm):
     class Meta:
         model = Book
-        fields = ("title", "authors", "year", "available", "categories")
+        fields = (
+            "title",
+            "authors",
+            "year",
+            "available",
+            "categories",
+            "pages",
+            "isbn",
+        )
         labels = {
             "title": "Título",
             "authors": "Autores",
             "year": "Ano",
             "available": "Disponível",
             "categories": "Categorias",
+            "pages": "Páginas",
+            "isbn": "ISBN",
         }
         widgets = {"categories": forms.CheckboxSelectMultiple}
 
     def clean_title(self):
         title = " ".join(self.cleaned_data["title"].split())
-        if len(title) < 3:
-            raise forms.ValidationError(
-                "O título deve ter pelo menos 3 caracteres após a limpeza."
-            )
         return title
 
     def clean_year(self):

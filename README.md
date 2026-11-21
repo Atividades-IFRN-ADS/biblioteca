@@ -38,6 +38,18 @@ O link `Novo autor` abre um `ModelForm` com os campos `Nome` e `Nacionalidade`. 
 
 O template usa `{% csrf_token %}`. Em teste, removê-lo e enviar o formulário produz resposta HTTP 403 (`CSRF verification failed. Request aborted.`), porque o `CsrfViewMiddleware` bloqueia a requisição POST antes da View. A proteção deve permanecer no formulário.
 
+## Validadores do livro
+
+O Model `Book` valida título com `MinLengthValidator(3)`, ano entre 1450 e o ano atual, páginas opcionais entre 1 e 5000 e ISBN opcional com exatamente 13 dígitos. Como o `BookForm` é um `ModelForm`, os validadores declarados no Model também são aplicados no formulário e no Admin durante a validação do Model.
+
+### Perguntas
+
+**a) O `BookForm` mudou?** Os campos novos precisam entrar em `Meta.fields`, mas as regras do Model não precisam ser copiadas para o formulário. O `ModelForm` constrói os campos a partir do Model e o Admin usa o mesmo ciclo de validação, incluindo os validadores do campo.
+
+**b) Validator x `clean_<campo>()`:** um validator recebe um valor e rejeita ou aceita uma regra reutilizável de um campo. `clean_<campo>()` pode transformar o valor antes de salvar e usar o contexto do formulário. Normalizar espaços do título é um exemplo adequado para `clean_title()`.
+
+**c) Estratégias:** título diferente do autor exige `clean()`, porque compara campos; título sem espaços nas pontas usa `clean_title()`; páginas no máximo 5000 usa `MaxValueValidator`; livro indisponível com ISBN exige `clean()`, porque depende de `available` e `isbn` juntos.
+
 ## Formulário de livro
 
 As páginas `Novo livro` e `Editar` usam a mesma View e o mesmo `ModelForm`/template. O título é normalizado antes de salvar; espaços repetidos são reduzidos e títulos com menos de três caracteres são rejeitados. O ano não pode ser posterior ao ano atual, calculado no momento da validação. Categorias são opcionais e aparecem como caixas de marcação. Após salvar, o usuário volta à página do autor do livro.

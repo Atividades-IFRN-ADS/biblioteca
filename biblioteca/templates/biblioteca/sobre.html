@@ -1,0 +1,14 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Sobre | Biblioteca</title>
+</head>
+<body>
+    <h1>Sobre a biblioteca</h1>
+    <p>Total de livros: {{ total_livros }}</p>
+    <p>Livros disponíveis: {{ livros_disponiveis }}</p>
+    <p><a href="{% url 'listar_livros' %}">Voltar à lista</a></p>
+</body>
+</html>

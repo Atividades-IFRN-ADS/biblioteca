@@ -1,35 +1,85 @@
-from django.shortcuts import get_object_or_404, redirect, render
+from django.urls import reverse, reverse_lazy
+from django.views.generic import (
+    CreateView,
+    DeleteView,
+    DetailView,
+    ListView,
+    TemplateView,
+    UpdateView,
+)
 
 from .forms import AuthorForm, BookForm
 from .models import Author, Book
 
 
-def listar_livros(request):
-    livros = Book.objects.prefetch_related("authors")
-    return render(request, "biblioteca/lista_livros.html", {"livros": livros})
+class BookListView(ListView):
+    model = Book
+    template_name = "biblioteca/lista_livros.html"
+    context_object_name = "livros"
+    ordering = ("title",)
+
+    def get_queryset(self):
+        return Book.objects.prefetch_related("authors").order_by(*self.ordering)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["total_livros"] = Book.objects.count()
+        context["livros_disponiveis"] = Book.objects.filter(available=True).count()
+        return context
 
 
-def author_detail(request, pk):
-    author = get_object_or_404(Author, pk=pk)
-    return render(request, "biblioteca/author_detail.html", {"author": author})
+class AuthorDetailView(DetailView):
+    model = Author
+    template_name = "biblioteca/author_detail.html"
+    context_object_name = "author"
+
+    def get_queryset(self):
+        return Author.objects.prefetch_related("books")
 
 
-def author_create(request):
-    form = AuthorForm(request.POST if request.method == "POST" else None)
-    if request.method == "POST" and form.is_valid():
-        author = form.save()
-        return redirect("author_detail", pk=author.pk)
-    return render(request, "biblioteca/author_form.html", {"form": form})
+class AuthorCreateView(CreateView):
+    form_class = AuthorForm
+    template_name = "biblioteca/author_form.html"
+    context_object_name = "author"
+    success_url = reverse_lazy("listar_livros")
+
+    def get_success_url(self):
+        return reverse("author_detail", kwargs={"pk": self.object.pk})
 
 
-def book_form(request, pk=None):
-    book = get_object_or_404(Book, pk=pk) if pk is not None else None
-    form = BookForm(
-        request.POST if request.method == "POST" else None,
-        request.FILES if request.method == "POST" else None,
-        instance=book,
-    )
-    if request.method == "POST" and form.is_valid():
-        book = form.save()
-        return redirect("author_detail", pk=book.authors.first().pk)
-    return render(request, "biblioteca/book_form.html", {"form": form, "book": book})
+class BookFormMixin:
+    form_class = BookForm
+    template_name = "biblioteca/book_form.html"
+    context_object_name = "book"
+    success_url = reverse_lazy("listar_livros")
+
+    def get_success_url(self):
+        author = self.object.authors.order_by("pk").first()
+        if author is None:
+            return self.success_url
+        return reverse("author_detail", kwargs={"pk": author.pk})
+
+
+class BookCreateView(BookFormMixin, CreateView):
+    pass
+
+
+class BookUpdateView(BookFormMixin, UpdateView):
+    model = Book
+
+
+class BookDeleteView(DeleteView):
+    model = Book
+    template_name = "biblioteca/livro_confirm_delete.html"
+    context_object_name = "livro"
+    success_url = reverse_lazy("listar_livros")
+
+
+class AboutView(TemplateView):
+    template_name = "biblioteca/sobre.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["total_livros"] = Book.objects.count()
+        context["livros_disponiveis"] = Book.objects.filter(available=True).count()
+        return context

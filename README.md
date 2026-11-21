@@ -66,3 +66,17 @@ O Django não remove o arquivo antigo quando um livro é apagado ou quando a cap
 
 A extensão não prova que o conteúdo é uma imagem. O servidor também deve validar conteúdo com Pillow, limitar tamanho e dimensões, gerar nome seguro, impedir travessia de diretórios, armazenar uploads fora do código executável quando possível e servir o arquivo com configuração segura. Uploads nunca devem ser tratados como código executável.
 
+## Class-Based Views
+
+As views usam `ListView`, `DetailView`, `CreateView`, `UpdateView`, `DeleteView` e `TemplateView`. A listagem ordena por título, mantém `lista_livros.html`, e a criação/edição compartilha `book_form.html`. Livro inexistente gera 404 automaticamente. A exclusão usa `livro_confirm_delete.html`, confirma em GET e só apaga em POST. O caminho `sobre/` mostra total de livros e quantidade disponível.
+
+### Perguntas
+
+**a) CreateView:** `ProcessFormView` e `ModelFormMixin` fazem o teste do método HTTP, constroem o formulário e chamam `is_valid()`. Se inválido, a mesma página é renderizada novamente com os dados enviados e os erros junto aos campos; nada é salvo.
+
+**b) Upload na CreateView:** `FormMixin.get_form_kwargs()` inclui `request.FILES` automaticamente em requisições POST. Por isso a capa continua funcionando sem montar o formulário manualmente.
+
+**c) DeleteView:** o GET mostra confirmação e o POST executa a exclusão. Se apagar em GET, um link acessado por robô, pré-carregador ou usuário poderia excluir dados sem confirmação e sem uma ação mutável explícita.
+
+**d) CBVs:** a vantagem é reutilizar fluxo pronto de CRUD e reduzir código repetido; a desvantagem é que a lógica pode ficar menos evidente quando precisa fugir do comportamento padrão. Uma FBV ainda é boa para fluxo curto ou muito específico, com poucas etapas e regra que não se encaixa nos mixins genéricos.
+

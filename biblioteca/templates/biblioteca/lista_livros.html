@@ -10,7 +10,9 @@
     <p>
         <a href="{% url 'author_create' %}">Novo autor</a>
         <a href="{% url 'book_create' %}">Novo livro</a>
+        <a href="{% url 'sobre' %}">Sobre</a>
     </p>
+    <p>Total: {{ total_livros }} | Disponíveis: {{ livros_disponiveis }}</p>
     {% if livros %}
         <ul>
             {% for livro in livros %}
@@ -24,6 +26,7 @@
                     {% endfor %}
                     ({{ livro.year }})
                     <a href="{% url 'book_edit' livro.pk %}">Editar</a>
+                    <a href="{% url 'book_delete' livro.pk %}">Excluir</a>
                 </li>
             {% endfor %}
         </ul>

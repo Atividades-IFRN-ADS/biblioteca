@@ -19,6 +19,7 @@
                 {% endif %}
                 {{ book.title }} ({{ book.year }})
                 <a href="{% url 'book_edit' book.pk %}">Editar</a>
+                <a href="{% url 'book_delete' book.pk %}">Excluir</a>
             </li>
         {% empty %}
             <li>Nenhum livro cadastrado para este autor.</li>

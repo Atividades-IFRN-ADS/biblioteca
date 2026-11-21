@@ -1,0 +1,157 @@
+[
+{
+  "model": "biblioteca.author",
+  "pk": 1,
+  "fields": {
+    "name": "Machado de Assis",
+    "nationality": ""
+  }
+},
+{
+  "model": "biblioteca.author",
+  "pk": 2,
+  "fields": {
+    "name": "Paulo Coelho",
+    "nationality": ""
+  }
+},
+{
+  "model": "biblioteca.author",
+  "pk": 3,
+  "fields": {
+    "name": "Carolina Maria de Jesus",
+    "nationality": ""
+  }
+},
+{
+  "model": "biblioteca.book",
+  "pk": 1,
+  "fields": {
+    "title": "Dom Casmurro",
+    "year": 1899,
+    "available": true,
+    "authors": [
+      1
+    ],
+    "categories": []
+  }
+},
+{
+  "model": "biblioteca.book",
+  "pk": 2,
+  "fields": {
+    "title": "O Alquimista",
+    "year": 1988,
+    "available": true,
+    "authors": [
+      2
+    ],
+    "categories": []
+  }
+},
+{
+  "model": "biblioteca.book",
+  "pk": 3,
+  "fields": {
+    "title": "Quarto de Despejo",
+    "year": 1960,
+    "available": false,
+    "authors": [
+      3
+    ],
+    "categories": []
+  }
+},
+{
+  "model": "biblioteca.book",
+  "pk": 4,
+  "fields": {
+    "title": "Memórias Póstumas de Brás Cubas",
+    "year": 1881,
+    "available": true,
+    "authors": [
+      1
+    ],
+    "categories": []
+  }
+},
+{
+  "model": "biblioteca.book",
+  "pk": 5,
+  "fields": {
+    "title": "Quincas Borba",
+    "year": 1891,
+    "available": true,
+    "authors": [
+      1
+    ],
+    "categories": []
+  }
+},
+{
+  "model": "biblioteca.book",
+  "pk": 6,
+  "fields": {
+    "title": "Helena",
+    "year": 1876,
+    "available": true,
+    "authors": [
+      1
+    ],
+    "categories": []
+  }
+},
+{
+  "model": "biblioteca.book",
+  "pk": 7,
+  "fields": {
+    "title": "Brida",
+    "year": 1990,
+    "available": true,
+    "authors": [
+      2
+    ],
+    "categories": []
+  }
+},
+{
+  "model": "biblioteca.book",
+  "pk": 8,
+  "fields": {
+    "title": "Onze Minutos",
+    "year": 2003,
+    "available": true,
+    "authors": [
+      2
+    ],
+    "categories": []
+  }
+},
+{
+  "model": "biblioteca.book",
+  "pk": 9,
+  "fields": {
+    "title": "As Valkírias",
+    "year": 1992,
+    "available": true,
+    "authors": [
+      1,
+      2
+    ],
+    "categories": []
+  }
+},
+{
+  "model": "biblioteca.book",
+  "pk": 10,
+  "fields": {
+    "title": "Casa de Alvenaria",
+    "year": 1961,
+    "available": true,
+    "authors": [
+      3
+    ],
+    "categories": []
+  }
+}
+]

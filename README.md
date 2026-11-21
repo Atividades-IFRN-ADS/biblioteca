@@ -20,6 +20,8 @@ Antes da alteração, a base foi copiada para `db.sqlite3.backup-2026-10-09` e c
 python -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
+cp .env.example .env
+# preencha o .env com as credenciais do PostgreSQL
 python manage.py migrate
 python manage.py runserver
 ```
@@ -27,6 +29,8 @@ python manage.py runserver
 Os livros da primeira atividade são preservados e convertidos para autores na migração. Em um banco novo e vazio, carregue os exemplos com `python manage.py loaddata livros`.
 
 A lista fica em `http://127.0.0.1:8000/`; os detalhes do autor são acessados pelo link ao lado de cada livro. Para administrar o catálogo, crie um usuário com `python manage.py createsuperuser` e acesse `http://127.0.0.1:8000/admin/`.
+
+O relatório da migração para PostgreSQL está em `RELATORIO_POSTGRES.md`.
 
 ## Formulário de autor
 
